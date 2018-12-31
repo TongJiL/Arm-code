@@ -1,4 +1,5 @@
 import numpy as np
+
 from openmdao.api import ExplicitComponent
 
 

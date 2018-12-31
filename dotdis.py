@@ -18,8 +18,8 @@ class dotXcomp(ExplicitComponent):
         self.add_input('L_2',val=0.542)
 
         #output
-        self.add_output('dotx')
-        self.add_output('doty')
+        self.add_output('dotx',shape=(num))
+        self.add_output('doty',shape=(num))
 
         #partials
         self.declare_partials('dotx',['L_1','L_2','q','w'])
@@ -29,10 +29,10 @@ class dotXcomp(ExplicitComponent):
 
         L_1=inputs['L_1']
         L_2=inputs['L_2']
-        q_1=inputs['q'][0]
-        q_2=inputs['q'][1]
-        w_1=inputs['w'][0]
-        w_2=inputs['w'][1]
+        q_1=inputs['q'][:,0]
+        q_2=inputs['q'][:,1]
+        w_1=inputs['w'][:,0]
+        w_2=inputs['w'][:,1]
 
         outputs['dotx']=-(L_1)*(w_1)*np.sin(q_1)-(L_2)*(w_2)*np.sin(q_2)
         outputs['doty']=(L_1)*(w_1)*np.cos(q_1)+(L_2)*(w_2)*np.cos(q_2)
@@ -41,10 +41,10 @@ class dotXcomp(ExplicitComponent):
 
         L_1=inputs['L_1']
         L_2=inputs['L_2']
-        q_1=inputs['q'][0]
-        q_2=inputs['q'][1]
-        w_1=inputs['w'][0]
-        w_2=inputs['w'][1]
+        q_1=inputs['q'][:,0]
+        q_2=inputs['q'][:,1]
+        w_1=inputs['w'][:,0]
+        w_2=inputs['w'][:,1]
 
 
         J['dotx','L_1']=-(w_1)*np.sin(q_1)
@@ -71,8 +71,8 @@ if __name__ == '__main__':
     comp = IndepVarComp()
     comp.add_output('L_1',val=0.3)
     comp.add_output('L_2',val=0.542)
-    comp.add_output('q',val=np.random.random(num,2))
-    comp.add_output('w',val=np.random.random(num,2))
+    comp.add_output('q',val=np.random.random((num,2)))
+    comp.add_output('w',val=np.random.random((num,2)))
 
     prob.model.add_subsystem('ivc', comp, promotes=['*'])
     
